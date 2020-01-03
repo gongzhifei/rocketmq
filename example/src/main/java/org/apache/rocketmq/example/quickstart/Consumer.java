@@ -48,14 +48,18 @@ public class Consumer {
          * }
          * </pre>
          */
-
+        consumer.setNamesrvAddr("127.0.0.1:9876");
         /*
          * Specify where to start in case the specified consumer group is a brand new one.
+         * 如果指定的消费群体是全新的消费群体，请指定从何处开始。
+         *
+         * 设置消费者从哪个位置消费
          */
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
 
         /*
          * Subscribe one more more topics to consume.
+         * 订阅一个主题以进行消费。
          */
         consumer.subscribe("TopicTest", "*");
 
@@ -67,7 +71,7 @@ public class Consumer {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,
                 ConsumeConcurrentlyContext context) {
-                System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msgs);
+                System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), new String(msgs.get(0).getBody()));
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
         });
